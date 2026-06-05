@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Portfolio - Hồ Sơ Năng Lực Số</title>
+    <style>
+        /* --- HỆ THỐNG ĐỊNH DẠNG STYLE (CSS MODERN DARK) --- */
+        :root {
+            --primary-color: #00ffcc; /* Xanh công nghệ làm điểm nhấn */
+            --bg-color: #0d1117;      /* Nền tối bảo vệ mắt */
+            --text-color: #c9d1d9;    /* Chữ xám trắng học thuật */
+            --card-bg: #161b22;       /* Nền cho khối bài tập */
+            --border-color: #30363d;
+            --header-bg: #010409;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--header-bg);
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            margin: 0 0 15px 0;
+            font-size: 1.6em;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        header h1 span {
+            color: var(--primary-color);
+        }
+
+        /* Menu điều hướng giả lập đa trang */
+        nav {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        nav button {
+            background: #21262d;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        nav button:hover, nav button.active {
+            color: #000000;
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+            min-height: 70vh;
+        }
+
+        /* Cơ chế ẩn/hiện trang web */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2, h3 {
+            color: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-top: 0;
+        }
+
+        h2 span {
+            color: var(--primary-color);
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            background: #21262d;
+            border: 1px solid var(--border-color);
+            color: var(--primary-color);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .code-block {
+            background-color: #010409;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px;
+            font-family: monospace;
+            color: #79c0ff;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+
+        table, th, td {
+            border: 1px solid var(--border-color);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1f242c;
+            color: #ffffff;
+        }
+
+        /* Khung ảnh đen giả lập trực tuyến tích hợp */
+        .screenshot-placeholder {
+            width: 100%;
+            height: 260px;
+            background-color: #000000;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #8b949e;
+            font-family: monospace;
+            font-size: 1em;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: inset 0 0 20px rgba(255,255,255,0.05);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid var(--border-color);
+            background-color: #010409;
+            font-size: 0.85em;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Digital Portfolio Học Phần <span>[Điền Tên Bạn Vào Đây]</span></h1>
+        <nav>
+            <button onclick="switchPage('page-intro')" id="btn-page-intro" class="active">1. Giới Thiệu</button>
+            <button onclick="switchPage('page-projects')" id="btn-page-projects')">2. Dự Án Thành Phần</button>
+            <button onclick="switchPage('page-reflection')" id="btn-page-reflection')">3. Tổng Kết & Đánh Giá</button>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <div id="page-intro" class="page active">
+            <h2><span>#</span> Trang Giới Thiệu Bản Thân</h2>
+            <div class="card">
+                <h3>Thông tin cá nhân</h3>
+                <p><strong>Họ và tên:</strong> [Điền tên của bạn vào đây]</p>
+                <p><strong>Ngành học:</strong> Khoa học liên ngành và Nghệ thuật - Đại học Quốc gia Hà Nội (VNU-SIS).</p>
+                <p><strong>Sở thích:</strong> Khai phá dữ liệu đám mây, tối ưu hóa câu lệnh LLMs nâng cao và phân tích đạo đức công nghệ.</p>
+            </div>
+            <div class="card">
+                <h3>Mục tiêu học tập & Định hướng phát triển</h3>
+                <p>Mục tiêu lớn nhất là làm chủ hệ sinh thái công cụ số và các mô hình ngôn ngữ lớn để giải quyết các tác vụ nghiên cứu học thuật một cách có hệ thống, tăng tốc hiệu suất xử lý tri thức và phát triển kỹ năng điều phối cộng tác số từ xa.</p>
+            </div>
+            <div class="card">
+                <h3>Mục đích thành lập Portfolio</h3>
+                <p>Hồ sơ năng lực này được lưu trữ trực tiếp trên máy chủ GitHub Pages dưới dạng mã nguồn mở nhằm mục đích công khai, số hóa và hệ thống hóa toàn bộ chuỗi sản phẩm thực chứng đã thực hiện hằng tuần, khẳng định năng lực số cá nhân một cách minh bạch.</p>
+            </div>
+        </div>
+
+
+        <div id="page-projects" class="page">
+            <h2><span>#</span> Kho Lưu Trữ Toàn Diện 6 Bài Tập Thành Phần</h2>
+
+            <div class="card">
+                <div class="badge">Bài 1: Quản trị tài nguyên số</div>
+                <h3>Quản lý tệp tin và thư mục trên Google Drive</h3>
+                <p>Xây dựng hệ thống thư mục đám mây 3 tầng phục vụ dự án nhóm với chủ đề <em>"Lạm dụng AI trong nghệ thuật"</em> bám sát quy chuẩn đặt tên file không dấu đồng bộ.</p>
+                <div class="code-block">
+Lam_dung_AI_Nhom04/
+│
+├── 01_Tai_lieu_nghien_cuu/          <-- [Cấp 1] Tài liệu gốc
+│   ├── 01_Bai_doc_hoc_thuat/        <-- [Cấp 2] Sách, báo khoa học chuyên ngành
+│   └── 02_Chinh_sach_phap_ly/       <-- [Cấp 2] Quy định bản quyền, quyền tác giả
+│
+├── 02_Du_thao_noi_dung/             <-- [Cấp 1] Biên tập văn bản thô
+│   ├── 01_De_cuong_Docs/            <-- [Cấp 2] Nội dung đề cương 12 slide
+│   └── 02_Kich_ban_thuyet_trinh/    <-- [Cấp 2] Lời thoại nói chi tiết
+│
+└── 03_An_pham_truong_chieu/         <-- [Cấp 1] Thiết kế slide và media
+    ├── 01_Hinh_anh_minh_chung/      <-- [Cấp 2] Tranh do AI tạo sinh
+    └── 02_Slide_PowerPoint/         <-- [Cấp 2] File slide hoàn thiện (.pptx)
+                </div>
+                <p><em>Quy chuẩn đặt tên file:</em> <code>[Mã_Bài]_[Tên_Nội_Dung]_[Phiên_Bản_V]</code><br>Ví dụ: <code>B1_De_Cuong_Slide_AI_Art_V1.docx</code></p>
+                <div class="screenshot-placeholder">[ẢNH CHỤP MINH CHỨNG SƠ ĐỒ CÂY THƯ MỤC THỰC TẾ TRÊN GOOGLE DRIVE]</div>
+            </div>
+
+            <div class="card">
+                <div class="badge">Bài 2: Khai thác dữ liệu học thuật</div>
+                <h3>Tìm kiếm nâng cao và đánh giá thông tin khoa học</h3>
+                <p>Khai thác thông tin thời sự về chủ đề <em>"Xung đột lợi ích và chi phí xã hội trong việc nhường đất cho dự án sân golf"</em> bằng toán tử nâng cao và lập bảng đánh giá độ tin cậy nguồn tin theo tiêu chí CRAAP.</p>
+                <p><em>Toán tử sử dụng:</em> <code>"sân golf" AND "chi phí xã hội" site:vn.luatkhoa.com filetype:html</code></p>
+                <table>
+                    <tr>
+                        <th>Tiêu chí CRAAP</th>
+                        <th>Nguồn 1: Luật Khoa Tạp chí (2026)</th>
+                        <th>Nguồn 2: Boxit Việt Nam (2026)</th>
+                    </tr>
+                    <tr>
+                        <td><strong>C</strong>urrency (Cập nhật)</td>
+                        <td>Xuất bản tháng 6/2026, tính thời sự rất cao.</td>
+                        <td>Xuất bản tháng 6/2026, cập nhật tức thời.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>R</strong>elevenace (Liên quan)</td>
+                        <td>Đánh giá sâu sắc chi phí xã hội vô hình.</td>
+                        <td>Phân tích sâu góc độ quy hoạch đất đai.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>A</strong>uthority (Thẩm quyền)</td>
+                        <td>Cơ quan luật pháp, chính sách uy tín độc lập.</td>
+                        <td>Diễn đàn phản biện xã hội lâu năm.</td>
+                    </tr>
+                </table>
+                <div class="screenshot-placeholder">[ẢNH CHỤP MINH CHỨNG GOOGLE SEARCH VỚI CÁC TOÁN TỬ NÂNG CAO]</div>
+            </div>
+
+            <div class="card">
+                <div class="badge">Bài 3: Kỹ nghệ Prompt Engineering</div>
+                <h3>Thiết kế cấu trúc lệnh hiệu quả cho các tác vụ học tập</h3>
+                <p>Ứng dụng kỹ thuật lệnh nâng cao để bắt AI tóm tắt văn bản khoa học sâu sắc dựa trên tài liệu <em>"Baitaisan.pdf"</em>. So sánh chất lượng đầu ra giữa 2 phiên bản lệnh.</p>
+                <div class="code-block">
+/* PROMPT NÂNG CAO ĐÃ SỬ DỤNG (ROLE + CHAIN-OF-THOUGHT) */
+"Bạn là một chuyên gia phản biện học thuật thuộc Hội đồng Giáo sư. Hãy đọc tài liệu Baitaisan.pdf và tóm tắt theo các bước: Bước 1: Xác định khoảng trống lý thuyết. Bước 2: Phân tích nhân quả chuỗi thứ bậc C-A-C. Bước 3: Chỉ rõ ưu điểm và nhược điểm lý luận."
+                </div>
+                <p><strong>Kết quả đối chiếu:</strong> Prompt sơ khai chỉ cho ra đoạn văn liệt kê cơ học thô sơ. Prompt nâng cao tự động bóc tách được chuỗi nhân quả tâm lý du khách (Nhận biết $\rightarrow$ Hình ảnh $\rightarrow$ Chất lượng cảm nhận $\rightarrow$ Lòng trung thành) và chỉ ra hạn chế thiếu dữ liệu thực chứng của tài liệu gốc.</p>
+                <div class="screenshot-placeholder">[ẢNH CHỤP MINH CHỨNG BẢNG ĐỐI CHIẾU KẾT QUẢ ĐẦU RA CỦA 2 PROMPT TRÊN CHATGPT]</div>
+            </div>
+
+            <div class="card">
+                <div class="badge">Bài 4: Cộng tác trực tuyến đám mây</div>
+                <h3>Sử dụng công cụ trực tuyến phối hợp dự án nhóm</h3>
+                <p>Năng lực làm việc nhóm điều phối từ xa thông qua ứng dụng giao tiếp Messenger cho dự án thuyết trình 12 slide chủ đề <em>"Lạm dụng AI trong sáng tạo nghệ thuật"</em>.</p>
+                <ul>
+                    <li>Quản lý tiến độ bằng tính năng <strong>Ghim tin nhắn (Pin)</strong> danh sách công việc và hạn chót (Deadline) để tránh trôi thông tin.</li>
+                    <li>Sử dụng tính năng <strong>Cấu trúc tài liệu (Document Outline)</strong> trên Google Docs chung để phân đoạn khu vực gõ nội dung cho từng slide, tránh xung đột chèn chữ.</li>
+                    <li>Duy trì tương tác chuyên môn thường xuyên đạt trên 10 lượt tin nhắn/tuần.</li>
+                </ul>
+                <div class="screenshot-placeholder">[ẢNH CHỤP MINH CHỨNG TIN NHẮN GHIM VÀ THẢO LUẬN NHÓM TRÊN MESSENGER]</div>
+            </div>
+
+            <div class="card">
+                <div class="badge">Bài 5: Sáng tạo nội dung với AI</div>
+                <h3>Ứng dụng hệ sinh thái AI tạo sinh để hỗ trợ xây dựng nội dung</h3>
+                <p>Phối hợp chuỗi giá trị từ bộ 3 công cụ AI văn bản nâng cao để thiết kế kịch bản thô cho 12 slide bài thuyết trình "Lạm dụng AI":</p>
+                <ul>
+                    <li><strong>NotebookLM:</strong> Tải các tài liệu gốc lên để trích xuất luận điểm bản quyền chính xác, chống ảo tưởng.</li>
+                    <li><strong>ChatGPT:</strong> Phát triển văn bản thô thành ngôn từ phản biện, đanh thép của một nhà phê bình mỹ thuật.</li>
+                    <li><strong>Google Gemini:</strong> Cô đọng văn bản thành từ khóa và cấu trúc danh sách ngắn gọn theo quy tắc thiết kế slide tối giản.</li>
+                </ul>
+                <div class="screenshot-placeholder">[ẢNH CHỤP GIAO DIỆN HỆ THỐNG ĐỀ CƯƠNG 12 SLIDE ĐÃ ĐƯỢC GEMINI TỐI ƯU HÓA BIÊN TẬP]</div>
+            </div>
+
+            <div class="card">
+                <div class="badge">Bài 6: Liêm chính học thuật</div>
+                <h3>Sử dụng trí tuệ nhân tạo có trách nhiệm trong môi trường số</h3>
+                <p>Bản tuyên bố trách nhiệm cá nhân về đạo đức số bám sát chính sách học thuật của trường đại học, cam kết đóng góp tri thức cá nhân luôn chiếm phần lớn (>50%) và sử dụng AI minh bạch.</p>
+                <div class="code-block">
+/* BẢN TUYÊN BỐ MINH BẠCH (MẪU CHÈN CUỐI BÀI) */
+"Tài liệu có sử dụng công cụ ChatGPT và Gemini để hỗ trợ tối ưu cấu trúc đề cương hiển thị. Toàn bộ luận điểm khoa học, phản biện đạo đức và kiểm định số liệu thực tế đều do tác giả tự nghiên cứu, biên tập lại và chịu trách nhiệm cao nhất trước nhà trường."
+                </div>
+                <div class="screenshot-placeholder">[ẢNH CHỤP MINH CHỨNG INFOGRAPHIC 5 NGUYÊN TẮC VÀNG SỬ DỤNG AI CÓ TRÁCH NHIỆM]</div>
+            </div>
+        </div>
+
+
+        <div id="page-reflection" class="page">
+            <h2><span>#</span> Tổng Kết Trải Nghiệm & Đánh Giá Năng Lực</h2>
+            <div class="card">
+                <h3>Trải nghiệm cá nhân xuyên suốt học phần</h3>
+                <p>Việc thực hiện chuỗi bài tập giúp em thay đổi tư duy: công nghệ AI không triệt tiêu tri thức con người mà là đòn bẩy nâng cao hiệu suất kỹ thuật. Hành trình viết code thuần bằng 01 file duy nhất và đẩy trực tiếp lên Github Pages giúp em tự phá vỡ rào cản sợ hãi lập trình, nâng cao năng lực tự học và tư duy logic số.</p>
+            </div>
+            <div class="card">
+                <h3>Kiến thức và Kỹ năng số quan trọng nhất học được</h3>
+                <p>Em đã hoàn thiện trọn vẹn năng lực quản trị tài nguyên số, làm chủ kỹ nghệ viết câu lệnh Prompt Engineering có cấu trúc, biết cách phân tích phản biện xã hội khách quan trước các nguồn tin tức thời sự đa chiều và ứng dụng AI có liêm chính học thuật.</p>
+            </div>
+            <div class="card">
+                <h3>Định hướng ứng dụng tương lai</h3>
+                <p>Kỹ năng viết câu lệnh hệ thống và quản lý tài nguyên đám mây khoa học hứa hẹn sẽ là bệ phóng đắc lực giúp em triển khai các khóa luận nghiên cứu khoa học chuyên sâu đạt chuẩn mực cao và phục vụ tối ưu cho công tác quản lý chuyên môn trong công việc thực tế tương lai.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 2026 - Bản quyền Trang Web Portfolio thuộc về Sinh viên [Tên Của Bạn].</p>
+        <p>Mã nguồn được lưu trữ, biên dịch và chạy tự động trực tiếp trên nền tảng đám mây GitHub Pages.</p>
+    </footer>
+
+    <script>
+        function switchPage(pageId) {
+            // 1. Ẩn tất cả các trang
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+
+            // 2. Hiện trang được nhấn
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.classList.add('active');
+            }
+
+            // 3. Đổi trạng thái hiển thị của nút menu
+            const buttons = document.querySelectorAll('nav button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            const activeButton = document.getElementById('btn-' + pageId);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+
+            // 4. Cuộn màn hình lên đầu trang mượt mà
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>
